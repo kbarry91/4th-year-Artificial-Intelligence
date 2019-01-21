@@ -16,7 +16,6 @@ public class Funding {
 		
 		FIS fis = FIS.load("conf/funding.fcl", true); 			// Load and parse the FCL
 		JFuzzyChart.get().chart(fis);							// Display fuzzy charts
-		JFuzzyChart.get().chart("risk", "Risk",true);
 		//fis.chart();											// Display the linguistic variables and terms
 		
 		fis.setVariable("funding", 60); 						// Apply a value to a variable
