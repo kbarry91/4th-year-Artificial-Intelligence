@@ -36,7 +36,7 @@ FUNCTION_BLOCK staffing
 		DEFAULT := 0; 
 	END_DEFUZZIFY
 	
-	// Fuzzy rules
+	// Fuzzy rules	
 	RULEBLOCK No1 
 		AND : MIN;
 		ACT : MIN;
