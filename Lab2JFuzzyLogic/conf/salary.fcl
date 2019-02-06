@@ -1,0 +1,63 @@
+// Function Definition
+FUNCTION_BLOCK salary
+
+	// Inputs
+	VAR_INPUT
+		iq : REAL; 
+		qualification : REAL; 
+		experience : REAL; 
+		screeen : REAL;
+	END_VAR
+	
+	// Outputs
+	VAR_OUTPUT
+		salary : REAL; 
+	END_VAR
+	
+	Define membership functions ////////////////////////////////////////////////////////////////////
+	// Sets Fuzzyify
+	FUZZIFY screen 
+		TERM low := trian 0.0 25.0 50.0;
+		TERM average := trian 25.0 50.0 75.0;
+		TERM high := trian 50.0 75.0 100.0;
+	END_FUZZIFY 
+	
+	FUZZIFY experience 
+		TERM graduate := trian 0.0 2.5 5.0;
+		TERM average := trian 2.5 5.0 7.5;
+		TERM high := trian 5.0 7.5 10.0;
+	END_FUZZIFY 
+	
+	FUZZIFY qualifications 
+		TERM poor := (0,1) (2,1) (4,0);
+		TERM average := trape 3.3 4 5 6.6;
+		TERM high := (6,0) (8,1) (10,1)
+	END_FUZZIFY 
+	
+	FUZZIFY iq 
+		TERM low := (0,1) (20,1) (40,0);
+		TERM average := trape 33 40 50 66;
+		TERM high := (60,0) (80,1) (100,1)
+	END_FUZZIFY
+	
+	// Sets - Defuzzyify
+	DEFUZZIFY salary 
+		TERM low := trian 20.0 32.0 26.0;
+		TERM mediocre := trian 24.0 28.0 32.0;
+		TERM high := trian 27.0 31.0 35.0;
+		METHOD : COG;
+		DEFAULT := 0; 
+	END_DEFUZZIFY
+	
+	// Fuzzy rules	
+	RULEBLOCK No1 
+		AND : MIN;
+		ACT : MIN;
+		ACCU : MAX;
+		RULE 1 : IF iq IS high AND qualifications IS high THEN salary IS high;
+		RULE 2 : IF iq IS average AND qualification IS low THEN salary IS mediocre;
+		RULE 3 : IF experience IS graduate AND screen IS bad THEN salary IS low;
+		RULE 4 : IF experience IS high AND qualifications IS high THEN salary IS high;
+	END_RULEBLOCK
+	
+END_FUNCTION_BLOCK
