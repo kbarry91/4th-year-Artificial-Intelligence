@@ -1,0 +1,47 @@
+FUNCTION_BLOCK eurorisk	// Block definition (there may be more than one block per file)
+
+// Define input variables
+VAR_INPUT				
+	debtGDPRatio  : REAL;
+	growth : REAL;
+END_VAR
+
+// Define output variable
+VAR_OUTPUT				
+	risk : REAL;
+END_VAR
+
+FUZZIFY debtGDPRatio			
+	TERM low := (0, 1) (30, 1) (60 , 0) ; 
+	TERM medium := trape 30 60 80 110 ; 
+	TERM high := (90, 0) (135, 1) (150,1);
+END_FUZZIFY
+
+FUZZIFY growth			
+	TERM deflationary :=(-20, 1) (-1, 1) (10 , 0) ; 
+	TERM steady := (-5, 0) (1, 1) (20 , 1) ; 
+	TERM inflationary := (5, 0) (10, 1) (20,1);
+END_FUZZIFY
+
+DEFUZZIFY risk			
+	TERM low := trian 0 2.5 5;
+	TERM medium :=trian 2.5 5 7.5;
+	TERM high := trian 5 7.5 10;
+	//METHOD : COG;		// Use 'Center Of Gravity' defuzzification method
+	METHOD : RM; // mean of max
+	DEFAULT := 40;		// Default value is 0 (if no rule activates defuzzifier)
+END_DEFUZZIFY
+
+// Inference rules
+RULEBLOCK No1
+	AND : MIN;	// Use 'min' for 'and'
+	ACT : MIN;	// Use 'min' activation method
+	ACCU : MAX;	// Use 'max' accumulation method
+
+	RULE 1 : IF debtGDPRatio IS high AND growth IS steady THEN risk IS low;
+	RULE 2 : IF debtGDPRatio IS high AND growth IS deflationary THEN risk IS high;
+	RULE 3 : IF debtGDPRatio IS low AND growth IS  inflationary THEN risk IS low;
+	RULE 4 : IF debtGDPRatio IS  high OR growth IS deflationary THEN risk IS high;
+END_RULEBLOCK
+
+END_FUNCTION_BLOCK

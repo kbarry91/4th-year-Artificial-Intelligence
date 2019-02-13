@@ -13,12 +13,12 @@ import net.sourceforge.jFuzzyLogic.plot.JFuzzyChart;
 public class Salary {
 
 	public static void main(String[] args) throws Exception {
-		System.out.println(new Salary().getSalary(80.00d, 4.0d, 2.5, 45));
+		System.out.println(new Salary().getSalary(80.00d, 4.0d, 2.5d, 45.0d));
 	}
 
 	public double getSalary(double iq, double expierence, double qualification, double screen) {
 
-		FIS fis = FIS.load("conf/salary.fcl", true); // Load and parse the FCL
+		FIS fis = FIS.load("conf/salary.txt", true); // Load and parse the FCL
 		fis.setVariable("iq", iq);
 		fis.setVariable("expierence", expierence);
 		fis.setVariable("qualification", qualification);
