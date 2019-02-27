@@ -6,10 +6,10 @@ public class SignalRunner {
 	
 public static void main(String[] args) throws Exception{
 	
-	double[] test = {1, 1, 0, 1};
-	SignalRunner sr = new SignalRunner();
-	
-}
+		double[] test = {1, 1, 0, 1};
+		SignalRunner sr = new SignalRunner();
+		
+	}
 
 	public int getCategory(double[] values) throws Exception {
 		NeuralNetwork nn = new NeuralNetwork(Activator.ActivationFunction.Sigmoid, 4, 6, 14);
