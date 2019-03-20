@@ -10,6 +10,10 @@ public class IrelandMap {
 		Node cork = new Node("Cork", 120);
 		Node dublin = new Node("Dublin", 130);
 		Node waterford = new Node("Waterford", 0);
+		
+		Node nenagh = new Node("Nenagh", 120); // added in
+		
+		// The goal node
 		waterford.setGoalNode(true);
 
 		Node athlone = new Node("Athlone", 90);
@@ -23,7 +27,12 @@ public class IrelandMap {
 		limerick.addChildNode(galway, 105);
 		limerick.addChildNode(belfast, 323);
 		limerick.addChildNode(cork, 121);
+		// Add nenagh as a child to limerick
+		limerick.addChildNode(nenagh, 121);
 
+		// add dublin as a child to nenagh
+		dublin.addChildNode(nenagh, 80);
+		
 		cork.addChildNode(dublin, 220);
 		cork.addChildNode(waterford, 126);
 		cork.addChildNode(limerick, 121);
