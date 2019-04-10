@@ -1,30 +1,34 @@
 package ie.gmit.sw;
+
 import java.util.*;
+
 public class BeamSearch {
 	LinkedList<Node> queue = new LinkedList<Node>();
 	HeuristicNodeComparator sorter = new HeuristicNodeComparator();
-	int beamWidth= 3;
-	public void search(Node node){
+	int beamWidth = 3;
+
+	public void search(Node node) {
 		queue.addFirst(node);
 		int totalDistance = 0;
-		while(!queue.isEmpty()){
+		while (!queue.isEmpty()) {
 			queue.removeFirst();
 			System.out.print("Visiting " + node.getNodeName() + "\t");
-			if (node.isGoalNode()){
+			if (node.isGoalNode()) {
 				System.out.println("Reached goal node " + node.getNodeName() + " after " + totalDistance + " miles.");
 				System.exit(0);
-			}else{
-				Node[] children = node.children();	
+			} else {
+				Node[] children = node.children();
 				Collections.sort(Arrays.asList(children), sorter);
-				
+
 				int bound = 0;
-				if (children.length < beamWidth){
+				if (children.length < beamWidth) {
 					bound = children.length;
-				}else{
+				} else {
 					bound = beamWidth;
 				}
+				// Select 3 most promising and add to back of queue
 				for (int i = 0; i < bound; i++) {
-					if (!children[i].isVisited()){
+					if (!children[i].isVisited()) {
 						queue.addLast(children[i]);
 					}
 				}
@@ -35,7 +39,7 @@ public class BeamSearch {
 			}
 		}
 	}
-	
+
 	public static void main(String[] args) {
 		IrelandMap ire = new IrelandMap();
 		Node start = ire.getStartNode();
